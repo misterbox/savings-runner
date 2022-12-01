@@ -6,12 +6,7 @@ export class SavingsSchedule {
   private savingsMonths: SavingsMonth[];
 
   public get netAmount(): number {
-    const result = this.savingsMonths.reduce((prevBalance, savingsMonth, index) =>
-    {
-      return savingsMonth.applyRunningBalance(prevBalance);
-    }, this.initialBalance);
-
-    return result;
+    return this.savingsMonths.reduce((prevBalance, savingsMonth) => savingsMonth.applyRunningBalance(prevBalance), this.initialBalance);
   }
 
   constructor(initialBalance: number, creditAmount: number, savingsMonths: SavingsMonth[]) {

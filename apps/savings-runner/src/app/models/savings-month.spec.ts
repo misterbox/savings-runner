@@ -5,7 +5,7 @@ import { SingleExpense } from "./expense";
 import { SavingsMonth } from "./savings-month";
 
 describe('SavingsMonth', () => {
-  const irrelevantDateRange: DateRange = { beginDate: new Date('2022-12-01'), endDate: new Date('2022-12-31')}
+  const irrelevantDateRange: DateRange = { beginDate: new Date('2022-12-01T00:00'), endDate: new Date('2022-12-31T00:00')}
   const irrelevantCreditAmount = Random.Number({ min: 1, max: 100 });
 
   describe('GET sumExpenses', () => {
@@ -17,8 +17,8 @@ describe('SavingsMonth', () => {
 
     it('should return the expected total given expenses', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01'));
-      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02'));
+      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01T00:00'));
+      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02T00:00'));
       savingsMonth.addSingleExpense(expectedExpense1);
       savingsMonth.addSingleExpense(expectedExpense2);
 
@@ -55,7 +55,7 @@ describe('SavingsMonth', () => {
   describe('addSingleExpense', () => {
     it('should add the expected valid expense', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedExpense = new SingleExpense(100, new Date('2022-12-01'));
+      const expectedExpense = new SingleExpense(100, new Date('2022-12-01T00:00'));
 
       savingsMonth.addSingleExpense(expectedExpense);
 
@@ -65,7 +65,7 @@ describe('SavingsMonth', () => {
     });
 
     it('should throw the expected error given an invalid expense', () => {
-      const savingsMonth = new SavingsMonth(irrelevantCreditAmount, { beginDate: new Date('2022-12-01'), endDate: new Date('2022-12-31')});
+      const savingsMonth = new SavingsMonth(irrelevantCreditAmount, { beginDate: new Date('2022-12-01T00:00'), endDate: new Date('2022-12-31T00:00')});
       const expectedExpense = new SingleExpense(100, new Date('2022-11-01'));
 
       expect(() => savingsMonth.addSingleExpense(expectedExpense)).toThrowError('INVALID EXPENSE');
@@ -76,7 +76,7 @@ describe('SavingsMonth', () => {
   describe('addManyExpenses', () => {
     it('should add the expected valid expense', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedExpense = new SingleExpense(100, new Date('2022-12-01'));
+      const expectedExpense = new SingleExpense(100, new Date('2022-12-01T00:00'));
 
       savingsMonth.addManyExpenses([expectedExpense]);
 
@@ -87,8 +87,8 @@ describe('SavingsMonth', () => {
 
     it('should add the expected two expenses', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01'));
-      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02'));
+      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01T00:00'));
+      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02T00:00'));
 
       savingsMonth.addManyExpenses([expectedExpense1, expectedExpense2]);
 
@@ -100,11 +100,11 @@ describe('SavingsMonth', () => {
 
     it('should add the expected many expenses', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01'));
-      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02'));
-      const expectedExpense3 = new SingleExpense(150, new Date('2022-12-03'));
-      const expectedExpense4 = new SingleExpense(150, new Date('2022-12-04'));
-      const expectedExpense5 = new SingleExpense(150, new Date('2022-12-05'));
+      const expectedExpense1 = new SingleExpense(100, new Date('2022-12-01T00:00'));
+      const expectedExpense2 = new SingleExpense(150, new Date('2022-12-02T00:00'));
+      const expectedExpense3 = new SingleExpense(150, new Date('2022-12-03T00:00'));
+      const expectedExpense4 = new SingleExpense(150, new Date('2022-12-04T00:00'));
+      const expectedExpense5 = new SingleExpense(150, new Date('2022-12-05T00:00'));
 
       savingsMonth.addManyExpenses([expectedExpense1, expectedExpense2, expectedExpense3, expectedExpense4, expectedExpense5]);
 
@@ -154,6 +154,15 @@ describe('SavingsMonth', () => {
       const expectedBalance = runningBalance + irrelevantCreditAmount - expenses.map((exp) => exp.amount).reduce((prev, curr) => prev + curr, 0);
 
       expect(savingsMonth.applyRunningBalance(runningBalance)).toEqual(expectedBalance);
+    });
+  });
+
+  describe('GET key', () => {
+    it('should return the expected string', () => {
+      const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
+      const expectedKey = '20221201';
+
+      expect(savingsMonth.key).toEqual(expectedKey);
     });
   });
 });

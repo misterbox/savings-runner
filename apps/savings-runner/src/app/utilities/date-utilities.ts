@@ -9,3 +9,8 @@ export function isDateInRange(date: Date, range: DateRange): boolean {
 
   return interval.contains(source);
 }
+
+export function buildDateKey(dateRange: DateRange): string {
+  const datePart = dateRange.beginDate;
+  return `${datePart.getFullYear()}${datePart.getMonth()+1}01`;
+}
