@@ -1,17 +1,42 @@
 import { SavingsMonth } from "./savings-month";
+import { ShortfallMonth } from "./shortfall-month";
 
 export class SavingsSchedule {
-  private initialBalance: number;
-  private creditAmount: number;
-  private savingsMonths: SavingsMonth[];
+  private _initialBalance: number;
+  private _savingsMonths: SavingsMonth[];
+  private _shortfallMonths: ShortfallMonth[] = [];
+  private _netAmount!: number | undefined;
 
   public get netAmount(): number {
-    return this.savingsMonths.reduce((prevBalance, savingsMonth) => savingsMonth.applyRunningBalance(prevBalance), this.initialBalance);
+    if (this._netAmount) return this._netAmount;
+
+    const netAmount = this._savingsMonths.reduce((prevBalance, savingsMonth) => {
+      const runningBalance = savingsMonth.applyRunningBalance(prevBalance)
+
+      if (runningBalance < 0) {
+        this.addShortfallMonth(savingsMonth, runningBalance);
+      }
+
+      return runningBalance;
+    }, this._initialBalance);
+
+    return netAmount;
   }
 
-  constructor(initialBalance: number, creditAmount: number, savingsMonths: SavingsMonth[]) {
-    this.initialBalance = initialBalance;
-    this.creditAmount = creditAmount;
-    this.savingsMonths = savingsMonths;
+  public get shortfallMonths(): ShortfallMonth[] {
+    return this._shortfallMonths;
+  }
+
+  constructor(initialBalance: number, savingsMonths: SavingsMonth[]) {
+    this._initialBalance = initialBalance;
+    this._savingsMonths = savingsMonths;
+  }
+
+  private addShortfallMonth(savingsMonth: SavingsMonth, runningBalance: number): void {
+    this._shortfallMonths.push({
+      balance: runningBalance,
+      monthKey: savingsMonth.key,
+      savingsMonth: savingsMonth
+    });
   }
 }

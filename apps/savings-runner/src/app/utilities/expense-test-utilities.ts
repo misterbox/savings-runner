@@ -62,3 +62,13 @@ export function buildSavingsMonth(credit?: number): SavingsMonth {
 
   return savingsMonth;
 }
+
+export function buildManySavingsMonths(credit?: number, count: number = 5): SavingsMonth[] {
+  const months: SavingsMonth[] = [];
+
+  for (let i = 0; i < count; i++) {
+    months.push(buildSavingsMonth(credit));
+  }
+
+  return months;
+}
