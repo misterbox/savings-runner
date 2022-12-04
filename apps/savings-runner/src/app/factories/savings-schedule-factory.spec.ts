@@ -12,12 +12,13 @@ describe('SavingsScheduleFactory', () => {
     });
 
     xit('should return the expected savings schedule given one single expense', () => {
-      const expense = buildSingleExpense();
+      const expense = buildSingleExpense(-100);
       const factory = new SavingsScheduleFactory(0, 0, [expense]);
 
       const schedule = factory.build();
 
       expect(schedule.netAmount).toEqual(0 - expense.amount);
+      expect(schedule.shortfallMonths[0].savingsMonth.expenses.includes(expense)).toBeTruthy();
     });
   });
 });

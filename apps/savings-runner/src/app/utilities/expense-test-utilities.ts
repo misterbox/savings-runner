@@ -3,8 +3,8 @@ import { DateRange } from '../models/date-range';
 import { RecurringExpense, SingleExpense } from "../models/expense";
 import { SavingsMonth } from '../models/savings-month';
 
-export function buildSingleExpense(dateRange?: DateRange): SingleExpense {
-  const expenseAmount = Random.Number({ min: 1, max: 100 });
+export function buildSingleExpense(amount?: number, dateRange?: DateRange): SingleExpense {
+  const expenseAmount = amount ?? Random.Number({ min: 1, max: 100 });
 
   if (dateRange === null) {
     return new SingleExpense(expenseAmount, Random.Date());
@@ -17,7 +17,7 @@ export function buildManySingleExpenses(count: number = 5, dateRange?: DateRange
   const expenses: SingleExpense[] = [];
 
   for (let i = 0; i < count; i++) {
-    expenses.push(buildSingleExpense(dateRange));
+    expenses.push(buildSingleExpense(undefined, dateRange));
   }
 
   return expenses;

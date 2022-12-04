@@ -7,6 +7,7 @@ import { SavingsMonth } from "./savings-month";
 describe('SavingsMonth', () => {
   const irrelevantDateRange: DateRange = { beginDate: new Date('2022-12-01T00:00'), endDate: new Date('2022-12-31T00:00')}
   const irrelevantCreditAmount = Random.Number({ min: 1, max: 100 });
+  const irrelevantExpenseAmount = Random.Number({ min: 1, max: 100 });
 
   describe('GET sumExpenses', () => {
     it('should return 0 given no expenses', () => {
@@ -35,7 +36,7 @@ describe('SavingsMonth', () => {
 
     it('should return the expected balance given one expense', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expense = ExpenseUtils.buildSingleExpense(irrelevantDateRange);
+      const expense = ExpenseUtils.buildSingleExpense(irrelevantExpenseAmount, irrelevantDateRange);
       savingsMonth.addSingleExpense(expense);
       const expectedBalance = irrelevantCreditAmount - expense.amount;
 
@@ -128,7 +129,7 @@ describe('SavingsMonth', () => {
 
     it('should return the expected running balance given one expense with a positive running balance', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expense = ExpenseUtils.buildSingleExpense(irrelevantDateRange);
+      const expense = ExpenseUtils.buildSingleExpense(irrelevantExpenseAmount, irrelevantDateRange);
       savingsMonth.addSingleExpense(expense);
       const runningBalance = 10;
       const expectedBalance = runningBalance + (irrelevantCreditAmount - expense.amount);
@@ -138,7 +139,7 @@ describe('SavingsMonth', () => {
 
     it('should return the expected running balance given one expense with a positive running balance', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expense = ExpenseUtils.buildSingleExpense(irrelevantDateRange);
+      const expense = ExpenseUtils.buildSingleExpense(irrelevantExpenseAmount, irrelevantDateRange);
       savingsMonth.addSingleExpense(expense);
       const runningBalance = -10;
       const expectedBalance = runningBalance + (irrelevantCreditAmount - expense.amount);

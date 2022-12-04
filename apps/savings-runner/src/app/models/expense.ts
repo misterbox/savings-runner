@@ -13,15 +13,15 @@ export abstract class Expense {
 }
 
 export class SingleExpense extends Expense {
-  private date!: Date;
+  private _date!: Date;
 
-  public get Date(): Date {
-    return this.date;
+  public get date(): Date {
+    return this._date;
   }
 
   constructor(amount: number, date: Date) {
     super(amount);
-    this.date = date;
+    this._date = date;
   }
 }
 

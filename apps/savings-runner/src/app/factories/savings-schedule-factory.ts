@@ -1,7 +1,8 @@
+import { Random } from "random-test-values";
+import { DateRange } from "../models/date-range";
 import { RecurringExpense, SingleExpense } from "../models/expense";
 import { SavingsMonth } from "../models/savings-month";
 import { SavingsSchedule } from "../models/savings-schedule";
-import { buildDateRange } from "../utilities/expense-test-utilities";
 
 export class SavingsScheduleFactory {
   private _startingBalance: number;
@@ -17,8 +18,16 @@ export class SavingsScheduleFactory {
   }
 
   public build(): SavingsSchedule {
-    const savingsMonth = new SavingsMonth(0, buildDateRange());
-    savingsMonth.addManyExpenses(this._singleExpenses);
-    return new SavingsSchedule(0, [savingsMonth]);
+    // get max date
+
+    /*
+      find the current month
+      for each month between now and the max date
+        create savings month
+        check map for expenses
+        if any
+          add to schedule
+    */
+    return new SavingsSchedule(0, []);
   }
 }
