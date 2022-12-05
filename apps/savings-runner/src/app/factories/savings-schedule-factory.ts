@@ -8,7 +8,6 @@ export class SavingsScheduleFactory {
   private _monthlyCredit: number;
   private _singleExpenses: SingleExpense[];
   private _recurringExpenses: RecurringExpense[] | undefined;
-  private _expenseMap = new Map<string, SingleExpense[]>();
 
   constructor(startingBalance: number, monthlyCredit: number, singleExpenses: SingleExpense[], recurringExpenses?: RecurringExpense[]) {
     this._startingBalance = startingBalance;
