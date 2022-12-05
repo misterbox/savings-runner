@@ -1,4 +1,4 @@
-import { buildDateKey, isDateInRange } from "../utilities/date-utilities";
+import { buildDateKeyFromRange, isDateInRange } from "../utilities/date-utilities";
 import { DateRange } from "./date-range";
 import { Expense, SingleExpense } from "./expense";
 
@@ -20,7 +20,7 @@ export class SavingsMonth {
   }
 
   get key(): string {
-    return buildDateKey(this._dateRange);
+    return buildDateKeyFromRange(this._dateRange);
   }
 
   constructor(creditAmnt: number, dateRange: DateRange) {
