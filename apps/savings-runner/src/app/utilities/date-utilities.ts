@@ -1,6 +1,8 @@
 import { DateRange } from "../models/date-range";
 import { DateTime, Interval } from 'luxon';
-import { SingleExpense } from "../models/expense";
+import { ExpenseKey, SingleExpense } from "../models/expense";
+
+const expenseKeyFormat = 'yyyy-MM-dd';
 
 export function isDateInRange(date: Date, range: DateRange): boolean {
   if (range.endDate === undefined) return false;
@@ -12,15 +14,15 @@ export function isDateInRange(date: Date, range: DateRange): boolean {
 }
 
 // TODO: test
-export function buildDateKeyFromRange(dateRange: DateRange): string {
+export function buildDateKeyFromRange(dateRange: DateRange): ExpenseKey {
   const date = DateTime.fromJSDate(dateRange.beginDate);
-  return date.toFormat('yyyyMMdd');
+  return date.toFormat(expenseKeyFormat) as ExpenseKey;
 }
 
 // TODO: test
-export function buildDateKeyFromDate(input: Date): string {
+export function buildDateKeyFromDate(input: Date): ExpenseKey {
   const date = DateTime.fromJSDate(input).startOf('month');
-  return date.toFormat('yyyyMMdd');
+  return date.toFormat('yyyy-MM-dd') as ExpenseKey;
 }
 
 export function getMaxExpenseDateOrThreshold(expenses: SingleExpense[], thresholdInYears: number = 5): Date {

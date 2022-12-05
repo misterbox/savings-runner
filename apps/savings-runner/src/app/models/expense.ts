@@ -36,3 +36,5 @@ export class RecurringExpense extends Expense {
     };
   }
 }
+
+export type ExpenseKey = `${number}-${number}-${number}`;

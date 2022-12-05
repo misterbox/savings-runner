@@ -161,7 +161,7 @@ describe('SavingsMonth', () => {
   describe('GET key', () => {
     it('should return the expected string', () => {
       const savingsMonth = new SavingsMonth(irrelevantCreditAmount, irrelevantDateRange);
-      const expectedKey = '20221201';
+      const expectedKey = '2022-12-01';
 
       expect(savingsMonth.key).toEqual(expectedKey);
     });
