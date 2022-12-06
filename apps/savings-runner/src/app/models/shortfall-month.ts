@@ -1,7 +1,8 @@
+import { ExpenseKey } from "./expense";
 import { SavingsMonth } from "./savings-month";
 
 export interface ShortfallMonth {
   balance: number;
-  monthKey: string;
+  monthKey: ExpenseKey;
   savingsMonth: SavingsMonth;
 }

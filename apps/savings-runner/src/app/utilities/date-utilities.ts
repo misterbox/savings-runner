@@ -25,6 +25,12 @@ export function buildDateKeyFromDate(input: Date): ExpenseKey {
   return date.toFormat('yyyy-MM-dd') as ExpenseKey;
 }
 
+// TODO: test
+export function buildDateKeyFromExpense(expense: SingleExpense): ExpenseKey {
+  const date = DateTime.fromJSDate(expense.date).startOf('month');
+  return date.toFormat('yyyy-MM-dd') as ExpenseKey;
+}
+
 export function getMaxExpenseDateOrThreshold(expenses: SingleExpense[], thresholdInYears: number = 5): Date {
   const thresholdDate = getStartOfMonthInFutureInYears(thresholdInYears);
   const maxExpenseDate = getMaxExpenseDate(expenses);
@@ -33,16 +39,18 @@ export function getMaxExpenseDateOrThreshold(expenses: SingleExpense[], threshol
   return DateTime.min(DateTime.fromJSDate(thresholdDate), DateTime.fromJSDate(maxExpenseDate)).toJSDate();
 }
 
+// TODO: test when empty array
 export function getMaxExpenseDate(expenses: SingleExpense[]): Date {
   const expenseDates = expenses.map((expense) => expense.date);
 
   return getMaxDate(expenseDates);
 }
 
+// TODO: test when empty array
 export function getMaxDate(dates: Date[]): Date {
   const dateTimes: DateTime[] = dates.map(date => DateTime.fromJSDate(date));
 
-  return DateTime.max(...dateTimes).toJSDate();
+  return DateTime.max(...dateTimes)?.toJSDate();
 }
 
 export function getStartOfMonthInFutureInYears(yearsAhead: number): Date {
@@ -50,7 +58,7 @@ export function getStartOfMonthInFutureInYears(yearsAhead: number): Date {
 }
 
 // TODO: test
-export function incrementToStartOfMonth(date: Date): Date {
+export function incrementToStartOfNextMonth(date: Date): Date {
   return DateTime.fromJSDate(date).plus({ 'months': 1 }).startOf('month').toJSDate();
 }
 

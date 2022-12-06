@@ -1,6 +1,6 @@
 import { buildDateKeyFromRange, isDateInRange } from "../utilities/date-utilities";
 import { DateRange } from "./date-range";
-import { Expense, SingleExpense } from "./expense";
+import { Expense, ExpenseKey, SingleExpense } from "./expense";
 
 export class SavingsMonth {
   private _dateRange!: DateRange;
@@ -19,7 +19,7 @@ export class SavingsMonth {
     return this._expenses.map((exp: Expense) => exp.amount).reduce((prev, curr) => prev + curr, 0);
   }
 
-  get key(): string {
+  get key(): ExpenseKey {
     return buildDateKeyFromRange(this._dateRange);
   }
 
