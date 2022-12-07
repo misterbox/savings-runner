@@ -56,11 +56,11 @@ describe('SavingsScheduleFactory', () => {
         endDate: DateTime.now().plus({ 'years': 4 }).startOf('month').toJSDate(),
       };
       const underExpense1 = buildSingleExpense(100, underDateRange);
-      const underExpense2 = buildSingleExpense(100, underDateRange);
-      const underExpense3 = buildSingleExpense(100, underDateRange);
+      const underExpense2 = buildSingleExpense(250, underDateRange);
+      const underExpense3 = buildSingleExpense(350, underDateRange);
       const underExpenses = [underExpense1, underExpense2, underExpense3];
       const expectedShortfallKeys = [buildDateKeyFromExpense(underExpense1), buildDateKeyFromExpense(underExpense2), buildDateKeyFromExpense(underExpense3)];
-      const expectedNetAmount = -300;
+      const expectedNetAmount = -700;
       const overDateRange: DateRange = {
         beginDate: DateTime.now().plus({ 'years': 10 }).startOf('month').toJSDate(),
         endDate: DateTime.now().plus({ 'years': 14 }).startOf('month').toJSDate(),
