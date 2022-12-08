@@ -1,4 +1,5 @@
 import { DateRange } from "./date-range";
+import * as DateUtils from '../utilities/date-utilities';
 
 export abstract class Expense {
   private _amount!: number;
@@ -25,15 +26,26 @@ export class SingleExpense extends Expense {
   }
 }
 
+// TODO: Assumes the expense repeats on the same date monthly
 export class RecurringExpense extends Expense {
   private dateRange: DateRange;
 
-  constructor(amount: number, beginDate: Date, endDate: Date | undefined) {
+  constructor(amount: number, beginDate: Date, endDate: Date) {
     super(amount);
     this.dateRange = {
       beginDate,
       endDate
     };
+  }
+
+  public toSingleExpenses(): SingleExpense[] {
+   const singleExpenses: SingleExpense[] = [];
+
+    for (let dateIterator = this.dateRange.beginDate; dateIterator <= this.dateRange.endDate; dateIterator = DateUtils.incrementMonth(dateIterator, 1)) {
+      singleExpenses.push(new SingleExpense(this.amount, dateIterator));
+    }
+
+    return singleExpenses;
   }
 }
 

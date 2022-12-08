@@ -81,3 +81,9 @@ export function buildDateRangeFromDate(input: Date): DateRange {
     endDate: date.endOf('month').toJSDate()
   };
 }
+
+export function incrementMonth(input: Date, amount: number): Date {
+  const date = DateTime.fromJSDate(input);
+
+  return date.plus({ 'months': amount }).toJSDate();
+}
