@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import { DateRange } from "../models/date-range";
+import { RecurringExpense } from "../models/expense";
 import { buildDateKeyFromExpense } from "../utilities/date-utilities";
 import { buildSingleExpense } from "../utilities/expense-test-utilities";
 import { SavingsScheduleFactory } from "./savings-schedule-factory";
@@ -110,24 +111,38 @@ describe('SavingsScheduleFactory', () => {
       expect(schedule.shortfallMonths.length).toEqual(0);
     });
 
-    // it('should return the expected savings schedule given one single expense and a short recurring expense under the threshold', () => {
-    //   const expenseAmount = 100;
-    //   const expectedNetAmount = -300;
-    //   const threshold = 5;
-    //   const dateRange: DateRange = {
-    //     beginDate: DateTime.now().plus({ 'years': 1 }).startOf('month').toJSDate(),
-    //     endDate: DateTime.now().plus({ 'years': 4 }).startOf('month').toJSDate(),
-    //   };
-    //   const singleExpense = buildSingleExpense(expenseAmount, dateRange);
-    //   const beginDate = new Date('2022-12-01T00:00');
-    //   const endDate = new Date('2023-01-01T00:00');
-    //   const recurringExpense = new RecurringExpense(expenseAmount, beginDate, endDate);
-    //   const factory = new SavingsScheduleFactory(0, 0, [singleExpense], [recurringExpense]);
+    it('should return the expected savings schedule given one single expense and a short recurring expense under the threshold', () => {
+      const expenseAmount = 100;
+      const expectedNetAmount = -300;
+      const threshold = 5;
+      const dateRange: DateRange = {
+        beginDate: DateTime.now().plus({ 'years': 1 }).startOf('month').toJSDate(),
+        endDate: DateTime.now().plus({ 'years': 4 }).startOf('month').toJSDate(),
+      };
+      const singleExpense = buildSingleExpense(expenseAmount, dateRange);
+      const beginDate = new Date('2022-12-01T00:00');
+      const endDate = new Date('2023-01-01T00:00');
+      const recurringExpense = new RecurringExpense(expenseAmount, beginDate, endDate);
+      const factory = new SavingsScheduleFactory(0, 0, [singleExpense], [recurringExpense]);
 
-    //   const schedule = factory.build(threshold);
+      const schedule = factory.build(threshold);
 
-    //   expect(schedule.netAmount).toEqual(expectedNetAmount);
-    //   expect(schedule.shortfallMonths.length).toEqual(3);
-    // });
+      expect(schedule.netAmount).toEqual(expectedNetAmount);
+    });
+
+    it('should return the expected savings schedule given  a short recurring expense under the threshold', () => {
+      const expenseAmount = 100;
+      const expectedNetAmount = -200;
+      const threshold = 5;
+      const beginDate = new Date('2022-12-01T00:00');
+      const endDate = new Date('2023-01-01T00:00');
+      const recurringExpense = new RecurringExpense(expenseAmount, beginDate, endDate);
+      const factory = new SavingsScheduleFactory(0, 0, [], [recurringExpense]);
+
+      const schedule = factory.build(threshold);
+
+      expect(schedule.netAmount).toEqual(expectedNetAmount);
+      expect(schedule.shortfallMonths.length).toEqual(2);
+    });
   });
 });

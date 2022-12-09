@@ -7,24 +7,43 @@ import * as DateUtils from '../utilities/date-utilities'
 export class SavingsScheduleFactory {
   private _startingBalance: number;
   private _monthlyCredit: number;
-  private _singleExpenses: SingleExpense[];
+  private _singleExpenses: SingleExpense[] | undefined;
   private _recurringExpenses: RecurringExpense[] | undefined;
-  private _expenseMap: ExpenseMap;
+  private _combinedExpenses: SingleExpense[] = [];
+  private _expenseMap!: ExpenseMap;
+  private _expenseMapInitialized = false;
 
-  constructor(startingBalance: number, monthlyCredit: number, singleExpenses: SingleExpense[], recurringExpenses?: RecurringExpense[]) {
+  constructor(startingBalance: number, monthlyCredit: number, singleExpenses?: SingleExpense[], recurringExpenses?: RecurringExpense[]) {
     this._startingBalance = startingBalance;
     this._monthlyCredit = monthlyCredit;
     this._singleExpenses = singleExpenses;
     this._recurringExpenses = recurringExpenses;
-    this._expenseMap = new ExpenseMap(this._singleExpenses);
   }
 
   public build(dateThresholdInYears?: number): SavingsSchedule {
-    const maxScheduleDate = DateUtils.getMaxExpenseDateOrThreshold(this._singleExpenses, dateThresholdInYears);
+    this.initializeExpenseMap();
+
+    const maxScheduleDate = DateUtils.getMaxExpenseDateOrThreshold(this._combinedExpenses, dateThresholdInYears);
     const currentMonth = DateUtils.getStartOfCurrentMonth();
     const savingsMonths: SavingsMonth[] = this.buildSavingsMonths(currentMonth, maxScheduleDate);
 
     return new SavingsSchedule(this._startingBalance, savingsMonths);
+  }
+
+  private initializeExpenseMap() {
+    if (!this._expenseMapInitialized) {
+      if (this._singleExpenses) {
+        this._combinedExpenses = this._combinedExpenses.concat(this._singleExpenses);
+      }
+      if (this._recurringExpenses) {
+        this._recurringExpenses.forEach((recurExpense) => {
+          const singleExpenses = recurExpense.toSingleExpenses();
+          this._combinedExpenses = this._combinedExpenses.concat(singleExpenses);
+        });
+      }
+
+      this._expenseMap = new ExpenseMap(this._combinedExpenses);
+    }
   }
 
   private buildSavingsMonths(currentMonth: Date, maxScheduleDate: Date) {
