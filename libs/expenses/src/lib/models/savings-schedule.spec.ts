@@ -1,5 +1,5 @@
 import { Random } from "random-test-values";
-import { buildManySavingsMonths, buildSavingsMonth } from "../utilities/expense-test-utilities";
+import { buildManySavingsMonths, buildSavingsMonth } from '../utilities/expense-test-utilities';
 import { SavingsSchedule } from "./savings-schedule";
 
 describe('savingsSchedule', () => {

@@ -1,4 +1,4 @@
-import { buildDateKeyFromRange, isDateInRange } from "../utilities/date-utilities";
+import * as DateUtils from '../utilities/date-utilities';
 import { DateRange } from "./date-range";
 import { Expense, ExpenseKey, SingleExpense } from "./expense";
 
@@ -20,7 +20,7 @@ export class SavingsMonth {
   }
 
   get key(): ExpenseKey {
-    return buildDateKeyFromRange(this._dateRange);
+    return DateUtils.buildDateKeyFromRange(this._dateRange);
   }
 
   constructor(creditAmnt: number, dateRange: DateRange) {
@@ -29,7 +29,7 @@ export class SavingsMonth {
   }
 
   public addSingleExpense(expense: SingleExpense): void {
-    if (!isDateInRange(expense.date, this._dateRange)) {
+    if (!DateUtils.isDateInRange(expense.date, this._dateRange)) {
       throw new Error(`INVALID EXPENSE: Cannot add an expense with date ${expense.date} to a SavingsMonth with interval ${this._dateRange.beginDate}-${this._dateRange.endDate}`);
     }
 

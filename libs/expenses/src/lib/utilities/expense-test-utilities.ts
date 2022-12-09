@@ -13,7 +13,7 @@ export function buildSingleExpense(amount?: number, dateRange?: DateRange): Sing
   return new SingleExpense(expenseAmount, Random.Date({ before: dateRange?.endDate, after: dateRange?.beginDate }));
 }
 
-export function buildManySingleExpenses(count: number = 5, dateRange?: DateRange): SingleExpense[] {
+export function buildManySingleExpenses(count = 5, dateRange?: DateRange): SingleExpense[] {
   const expenses: SingleExpense[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -30,7 +30,7 @@ export function buildRecurringExpense(): RecurringExpense {
   return new RecurringExpense(Random.Number(), beginingDate, endDate);
 }
 
-export function buildManyRecurringExpenses(count: number = 5): RecurringExpense[] {
+export function buildManyRecurringExpenses(count = 5): RecurringExpense[] {
   const expenses: RecurringExpense[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -63,7 +63,7 @@ export function buildSavingsMonth(credit?: number): SavingsMonth {
   return savingsMonth;
 }
 
-export function buildManySavingsMonths(credit?: number, count: number = 5): SavingsMonth[] {
+export function buildManySavingsMonths(credit?: number, count = 5): SavingsMonth[] {
   const months: SavingsMonth[] = [];
 
   for (let i = 0; i < count; i++) {

@@ -1,8 +1,8 @@
-import { RecurringExpense, SingleExpense } from "../models/expense";
+import { SingleExpense, RecurringExpense } from "../models/expense";
 import { ExpenseMap } from "../models/expense-map";
 import { SavingsMonth } from "../models/savings-month";
 import { SavingsSchedule } from "../models/savings-schedule";
-import * as DateUtils from '../utilities/date-utilities';
+import * as DateUtils from '../utilities/date-utilities'
 
 export class SavingsScheduleFactory {
   private _startingBalance: number;

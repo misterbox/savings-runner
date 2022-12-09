@@ -1,5 +1,5 @@
 import { DateRange } from "./date-range";
-import * as DateUtils from '../utilities/date-utilities';
+import * as DateUtils from '../utilities/date-utilities'
 
 export abstract class Expense {
   private _amount!: number;
