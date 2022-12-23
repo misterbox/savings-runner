@@ -62,4 +62,23 @@ describe('ExpenseMap', () => {
       expect(actualExpense).toStrictEqual(expectedExpenses);
     });
   });
+
+  describe('has', () => {
+    it('should return true when the expected key is present', () => {
+      const expense = buildSingleExpense();
+      const expectedKey = buildDateKeyFromDate(expense.date);
+      const expenseMap = new ExpenseMap([expense]);
+
+      expect(expenseMap.has(expectedKey)).toBeTruthy();
+    });
+
+    it('should return false when the key is missing', () => {
+      const expense = buildSingleExpense();
+      const someOtherExpense = buildSingleExpense();
+      const key = buildDateKeyFromDate(expense.date);
+      const expenseMap = new ExpenseMap([someOtherExpense]);
+
+      expect(expenseMap.has(key)).toBeFalsy();
+    });
+  });
 });

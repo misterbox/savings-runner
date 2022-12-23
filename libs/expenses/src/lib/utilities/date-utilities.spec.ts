@@ -1,6 +1,8 @@
+import { enableProdMode } from "@angular/core";
 import { DateTime } from "luxon";
 import { Random } from "random-test-values";
 import { DateRange } from "../models/date-range";
+import { ExpenseKey } from "../models/expense";
 import * as DateUtils from "./date-utilities";
 import { buildManySingleExpenses, buildSingleExpense } from "./expense-test-utilities";
 
@@ -145,6 +147,20 @@ describe('date utilities', () => {
       const actualDate = DateUtils.getStartOfMonthInFutureInYears(yearsAhead);
 
       expect(actualDate).toEqual(expectedDate);
+    });
+  });
+
+  describe('buildDateKeyFromRange', () => {
+    it('should return the expected key', () => {
+      const dateRange: DateRange = {
+        beginDate: new Date('2022-12-01T00:00'),
+        endDate: new Date('2022-12-31T00:00')
+      };
+      const expectedKey: ExpenseKey = '2022-12-01';
+
+      const actualKey = DateUtils.buildDateKeyFromRange(dateRange);
+
+      expect(actualKey).toEqual(expectedKey);
     });
   });
 });

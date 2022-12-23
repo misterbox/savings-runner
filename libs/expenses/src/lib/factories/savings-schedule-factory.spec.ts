@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { DateRange } from "../models/date-range";
-import { RecurringExpense } from "../models/expense";
+import { RecurringExpense, SingleExpense } from "../models/expense";
 import { buildDateKeyFromExpense } from "../utilities/date-utilities";
 import { buildSingleExpense } from "../utilities/expense-test-utilities";
 import { SavingsScheduleFactory } from "./savings-schedule-factory";
@@ -143,6 +143,55 @@ describe('SavingsScheduleFactory', () => {
 
       expect(schedule.netAmount).toEqual(expectedNetAmount);
       expect(schedule.shortfallMonths.length).toEqual(2);
+    });
+  });
+
+  describe('the real deal', () => {
+    it('will we make it?', () => {
+      const fullLoadTuition = 8000;
+      const halfLoadTuition = 4000;
+      const fullLoadBooks = 400;
+      const halfLoadBooks = 200;
+      const aumc = 190;
+      const monthlyContribution = 2200;
+      const startingBalance = 5595.39;
+      // tuition
+      const tuitionExpense: SingleExpense[] = [
+        new SingleExpense(fullLoadTuition, new Date('2023-01-01T00:00')),
+        new SingleExpense(halfLoadTuition, new Date('2023-06-01T00:00')),
+        new SingleExpense(fullLoadTuition, new Date('2023-08-01T00:00')),
+
+        new SingleExpense(fullLoadTuition, new Date('2024-01-01T00:00')),
+        new SingleExpense(halfLoadTuition, new Date('2024-06-01T00:00')),
+        new SingleExpense(fullLoadTuition, new Date('2024-08-01T00:00')),
+
+        new SingleExpense(fullLoadTuition, new Date('2025-01-01T00:00')),
+      ];
+      // books
+      const booksExpense: SingleExpense[] = [
+        new SingleExpense(fullLoadBooks, new Date('2022-12-31T00:00')),
+        new SingleExpense(halfLoadBooks, new Date('2023-05-01:00')),
+        new SingleExpense(fullLoadBooks, new Date('2023-08-01:00')),
+
+        new SingleExpense(fullLoadBooks, new Date('2023-12-01T00:00')),
+        new SingleExpense(halfLoadBooks, new Date('2024-05-01:00')),
+        new SingleExpense(fullLoadBooks, new Date('2024-08-01:00')),
+
+        new SingleExpense(fullLoadBooks, new Date('2024-12-01T00:00')),
+      ];
+      // AUMC
+      const aumcExpenses: RecurringExpense[] = [
+        new RecurringExpense(aumc, new Date('2023-01-01T00:00'), new Date('2023-05-01T00:00')),
+
+        new RecurringExpense(aumc, new Date('2023-08-01T00:00'), new Date('2024-05-01T00:00')),
+
+        new RecurringExpense(aumc, new Date('2024-08-01T00:00'), new Date('2025-05-01T00:00'))
+      ];
+      const factory = new SavingsScheduleFactory(startingBalance, monthlyContribution, [...tuitionExpense, ...booksExpense], [...aumcExpenses]);
+
+      const schedule = factory.build();
+
+      expect(schedule.netAmount).toBeGreaterThan(0);
     });
   });
 });

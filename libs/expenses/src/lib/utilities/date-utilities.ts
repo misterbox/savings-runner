@@ -13,7 +13,6 @@ export function isDateInRange(date: Date, range: DateRange): boolean {
   return interval.contains(source);
 }
 
-// TODO: test
 export function buildDateKeyFromRange(dateRange: DateRange): ExpenseKey {
   const date = DateTime.fromJSDate(dateRange.beginDate);
   return date.toFormat(expenseKeyFormat) as ExpenseKey;
@@ -31,10 +30,9 @@ export function buildDateKeyFromExpense(expense: SingleExpense): ExpenseKey {
   return date.toFormat('yyyy-MM-dd') as ExpenseKey;
 }
 
-export function getMaxExpenseDateOrThreshold(expenses: SingleExpense[], thresholdInYears: number = 5): Date {
+export function getMaxExpenseDateOrThreshold(expenses: SingleExpense[], thresholdInYears = 5): Date {
   const thresholdDate = getStartOfMonthInFutureInYears(thresholdInYears);
   const maxExpenseDate = getMaxExpenseDate(expenses);
-
 
   return DateTime.min(DateTime.fromJSDate(thresholdDate), DateTime.fromJSDate(maxExpenseDate)).toJSDate();
 }

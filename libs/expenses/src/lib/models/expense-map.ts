@@ -14,7 +14,6 @@ export class ExpenseMap {
     this.sortAndMap();
   }
 
-  // TODO: test
   public has(key: ExpenseKey): boolean {
     return this._expenseMap.has(key);
   }
